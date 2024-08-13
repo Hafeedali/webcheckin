@@ -10,9 +10,14 @@ mongoose.connect('mongodb://127.0.0.1:27017/time_entries', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+const loginSchema = new mongoose.Schema({
+  username: String,
+  teamleader: String,
+  password: String,
+});
 
 const entrySchema = new mongoose.Schema({
-  name: String,
+  username: String,
   date: String,
   startTime: String,
   endTime: String,
@@ -21,6 +26,19 @@ const entrySchema = new mongoose.Schema({
 });
 
 const TimeEntry = mongoose.model('TimeEntry', entrySchema);
+const Login = mongoose.model('Login', loginSchema);
+
+app.post('/api/login', async (req, res) => {
+  const {username, teamLeader, password} = req.body;
+try {
+  const newLogin = new Login({ username, teamLeader, password });
+  await newLogin.save();
+  res.status(201).send('Login data saved successfully');
+} catch (error) {
+  console.error('Error saving login data', error);
+  res.status(500).send('Error saving login data');
+}
+});
 
 app.post('/api/time-entry', async (req, res) => {
   const entry = new TimeEntry(req.body);

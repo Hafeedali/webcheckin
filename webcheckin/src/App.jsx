@@ -14,7 +14,7 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<LoginForm />} />
-        <Route path="/submit" element={<TimeEntryForm />} />
+        <Route path="/submit/:username" element={<TimeEntryForm />} />
 
       </Routes>
     </div>

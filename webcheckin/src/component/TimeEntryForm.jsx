@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 function TimeEntryForm() {
-  const [name, setName] = useState('');
+  const {username}= useParams('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]); 
   const [startTime, setStartTime] = useState('09:00'); 
   const [endTime, setEndTime] = useState('');
@@ -32,7 +33,7 @@ function TimeEntryForm() {
     e.preventDefault();
 
     const entry = {
-      name,
+      username,
       date,
       startTime,
       endTime,
@@ -65,9 +66,8 @@ function TimeEntryForm() {
 
   return (
     <div className='wrapper'>
-      <h2>Time Entry Form</h2>
+      <h2>Hyy {username} Hows your work </h2>
       <form onSubmit={handleSubmit}>
-        <label> Name:<input type="text" value={name}onChange={(e) => setName(e.target.value)}required/></label> <br />
         <label>Date:<input type="date" value={date} onChange={(e) => setDate(e.target.value)}required/></label><br />
         <label>Start Time:<input type="time" value={startTime} min="09:00" onChange={(e) => setStartTime(e.target.value)}required/></label><br />
         <label>End Time :<input type="time" value={endTime} max="19:00" onChange={(e) => setEndTime(e.target.value)} required/></label><br />
@@ -82,7 +82,7 @@ function TimeEntryForm() {
       <ul>
         {savedEntries.map((entry, index) => (
           <li key={index}>
-            name: {entry.name} <br />
+            name: {username} <br />
             date: {entry.date} <br />
             working time: {entry.startTime} to {entry.endTime} ({entry.timeDifference}) <br />
             project     : {entry.project}<br />
