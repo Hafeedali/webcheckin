@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+import TextField from '@mui/material/TextField';
+import { Box, Button,Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function LoginForm() {
   const [username, setUsername] = useState('');
   const[password,setPassword] = useState('');
-  const [teamleader,setTeamleader]=useState('');
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +16,6 @@ function LoginForm() {
             // Save login data to MongoDB
             await axios.post('http://localhost:5000/api/login', {
                 username,
-                 teamleader,
                 password,
             });
     navigate(`/submit/${username}`);
@@ -30,19 +30,32 @@ alert('Incorrect password. Please try again.');
 
 
   return (
-    <div className='wrapper'>
+    <Box 
+      bgcolor=' #BFD4BF' 
+      height="100vh" // Full height of the viewport
+      display="flex" 
+      alignItems="center" 
+      justifyContent="center"
+    >
+      <Box
+      bgcolor='#DBE9F4' height={250} width={250} display="flex" alignItems="center" justifyContent="center" gap={1} p={3} sx={{ border: '2px solid grey' }}
+      >
+    <Container maxWidth="sm">
        <h1>Login</h1>      
-       <form action=''>
-          <input type='text' value={username} onChange={(e) => setUsername(e.target.value)} placeholder='enter userid or email'/>
-          <input type='text' value={teamleader} onChange={(e)=>setTeamleader(e.target.value)} placeholder='TL name' />
-          <input type='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='enter password'></input>
-        <div className='rem-for'>
-          <label><input type="checkbox" />remember me</label>
-          <a href='#'>forgot password</a></div>
-        <button type='submit' onClick={handleSubmit}>Login</button>
-        <p className='reg'>dont have an account?<a href='#'>register</a></p>
+       <form>
+      <div>
+         <TextField id="standard-basic" label="username" variant="standard"   value={username} onChange={(e) => setUsername(e.target.value)} />
+         </div>
+         <div>
+          <TextField label="Password" type="password" variant="standard" margin="normal"  value={password} onChange={(e)=>setPassword(e.target.value)} />
+          </div>
+          
+        <Button variant='contained' color='primary' onClick={handleSubmit}>Login</Button>
+      
        </form>
-    </div>
+    </Container>
+    </Box>
+    </Box>
   )
 }
 
